@@ -1,0 +1,63 @@
+//S10.1
+//save this with s10.html
+
+<html>
+  <head>
+    <style>
+      img {
+        display: block;
+        width: 500px;
+        aspect-ratio: 1;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./unsplash.jpg" id="image" /><br />
+    <button onclick="add()">Submit</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function add() {
+        $("img").after("Good morning!");
+        $("img").before("Have a nice day.");
+      }
+    </script>
+  </body>
+</html>
+
+
+//S10.2
+
+//
+import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+
+//
+transactions=[['bread', 'milk'],
+
+['bread', 'diaper', 'beer', 'eggs'],
+
+['milk', 'diaper', 'beer', 'coke'],
+
+['bread', 'milk', 'diaper', 'beer'],
+
+['bread', 'milk', 'diaper', 'coke']]
+from mlxtend.preprocessing import TransactionEncoder
+
+te=TransactionEncoder()
+
+te_array=te.fit(transactions).transform(transactions) 
+df=pd.DataFrame(te_array,columns=te.columns_)
+
+df
+
+//
+freq_items=apriori (df,min_support=0.5,use_colnames=True)
+
+print(freq_items)
+
+//
+
+rules=association_rules(freq_items,metric='support',min_threshold=0.05)
+rules=rules.sort_values(['support','confidence'], ascending=[False, False])
+print(rules)
